@@ -30,4 +30,16 @@ public class AsignaturaController {
 
         return service.listarTodas();
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public AsignaturaResponseDTO actualizar(@PathVariable Long id, @RequestBody AsignaturaRequestDTO request) {
+        return service.actualizarAsignatura(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable Long id) {
+        service.eliminarAsignatura(id);
+    }
 }

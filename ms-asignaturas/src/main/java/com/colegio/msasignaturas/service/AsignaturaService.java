@@ -42,4 +42,29 @@ public class AsignaturaService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    public AsignaturaResponseDTO actualizarAsignatura(Long id, AsignaturaRequestDTO request) {
+
+        Asignatura asignaturaExistente = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada con ID: " + id));
+
+        asignaturaExistente.setNombre(request.getNombre());
+        asignaturaExistente.setDepartamento(request.getDepartamento());
+
+        Asignatura asignaturaActualizada = repository.save(asignaturaExistente);
+
+        AsignaturaResponseDTO response = new AsignaturaResponseDTO();
+        response.setId(asignaturaActualizada.getId());
+        response.setNombre(asignaturaActualizada.getNombre());
+        response.setDepartamento(asignaturaActualizada.getDepartamento());
+
+        return response;
+    }
+
+    public void eliminarAsignatura(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Asignatura no encontrada con ID: " + id);
+        }
+        repository.deleteById(id);
+    }
 }
