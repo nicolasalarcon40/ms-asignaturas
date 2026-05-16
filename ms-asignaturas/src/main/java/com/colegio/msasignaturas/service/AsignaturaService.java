@@ -2,6 +2,7 @@ package com.colegio.msasignaturas.service;
 
 import com.colegio.msasignaturas.dto.AsignaturaRequestDTO;
 import com.colegio.msasignaturas.dto.AsignaturaResponseDTO;
+import com.colegio.msasignaturas.exception.ResourceNotFoundException;
 import com.colegio.msasignaturas.model.Asignatura;
 import com.colegio.msasignaturas.repository.AsignaturaRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class AsignaturaService {
 
     private final AsignaturaRepository repository;
 
-    
     public AsignaturaResponseDTO crearAsignatura(AsignaturaRequestDTO request) {
-        
         Asignatura nuevaAsignatura = new Asignatura();
         nuevaAsignatura.setNombre(request.getNombre());
         nuevaAsignatura.setDepartamento(request.getDepartamento());
@@ -44,9 +43,8 @@ public class AsignaturaService {
     }
 
     public AsignaturaResponseDTO actualizarAsignatura(Long id, AsignaturaRequestDTO request) {
-
         Asignatura asignaturaExistente = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Asignatura no encontrada con ID: " + id));
 
         asignaturaExistente.setNombre(request.getNombre());
         asignaturaExistente.setDepartamento(request.getDepartamento());
@@ -63,7 +61,7 @@ public class AsignaturaService {
 
     public void eliminarAsignatura(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Asignatura no encontrada con ID: " + id);
+            throw new ResourceNotFoundException("Asignatura no encontrada con ID: " + id);
         }
         repository.deleteById(id);
     }
