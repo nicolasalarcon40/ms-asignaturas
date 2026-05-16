@@ -9,4 +9,4 @@ public interface AsignaturaClient {
 
     @GetMapping("/api/asignaturas/{id}")
     String obtenerPorId(@PathVariable("id") Long id);
-}
+}                                                                                                                                                               
