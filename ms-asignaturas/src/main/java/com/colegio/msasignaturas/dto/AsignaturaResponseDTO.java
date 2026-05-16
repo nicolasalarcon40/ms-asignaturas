@@ -1,5 +1,10 @@
 package com.colegio.msasignaturas.dto;
 
-public class AsignaturaResponseDTO {
+import lombok.Data;
 
+@Data
+public class AsignaturaResponseDTO {
+    private Long id;
+    private String nombre;
+    private String departamento;
 }
