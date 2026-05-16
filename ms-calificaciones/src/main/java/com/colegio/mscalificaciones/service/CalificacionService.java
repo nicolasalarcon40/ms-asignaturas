@@ -4,6 +4,7 @@ import com.colegio.mscalificaciones.client.AsignaturaClient;
 import com.colegio.mscalificaciones.client.EstudianteClient;
 import com.colegio.mscalificaciones.dto.CalificacionRequestDTO;
 import com.colegio.mscalificaciones.dto.CalificacionResponseDTO;
+import com.colegio.mscalificaciones.exception.ResourceNotFoundException;
 import com.colegio.mscalificaciones.model.Calificacion;
 import com.colegio.mscalificaciones.repository.CalificacionRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class CalificacionService {
 
     public CalificacionResponseDTO actualizar(Long id, CalificacionRequestDTO request) {
         Calificacion entidad = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ID no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("ID de calificacion no encontrado: " + id));
 
         estudianteClient.obtenerPorRut(request.getRutEstudiante());
         asignaturaClient.obtenerPorId(request.getIdAsignatura());
@@ -58,7 +59,7 @@ public class CalificacionService {
 
     public void eliminar(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("ID no encontrado: " + id);
+            throw new ResourceNotFoundException("ID de calificacion no encontrado: " + id);
         }
         repository.deleteById(id);
     }
